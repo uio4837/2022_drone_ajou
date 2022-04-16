@@ -1,8 +1,0 @@
-KRW=sym ('KRW');
-KRW=input("원화를 입력하세요 : ")
-
-USD=KRW/1229.50;
-EUR=KRW/1328.84;
-JPY=KRW/972.28;
-CNY=KRW/192.62;
-USD, EUR, JPY, CNY
