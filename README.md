@@ -126,10 +126,10 @@ bwboundaries가 내부 윤곽선을 찾는 것을 방지하기 위해 noholes �
 
         % obtain (X,Y) boundary coordinates corresponding to label 'k'
         boundary = B{k};
-        perimeter = sum(sqrt(sum(delta_sq,2)));
 
         % compute a simple estimate of the object's perimeter
         delta_sq = diff(boundary).^2;
+        perimeter = sum(sqrt(sum(delta_sq,2)));
 
         % obtain the area calculation corresponding to label 'k'
         area = stats(k).Area;
@@ -225,6 +225,9 @@ bwboundaries가 내부 윤곽선을 찾는 것을 방지하기 위해 noholes �
             disp("3.4m moveforward");
             moveforward(drone,'Distance',3.4,'Speed',0.8);
         end
+        
+![image](https://user-images.githubusercontent.com/92336598/178760071-8fc06b28-ac29-42d4-8079-9f8767c8b38d.png)
+
         
 ### 3) 표식의 색 인식
 R, G, B 각 색에 따른 측정되는 세기의 정도가 다르기에, 이를 실험적으로 드론이 촬영한 이미지의 각 3가지 영역(R,G,B)값들의 차이를 측정해 값들을 설정했습니다.
@@ -360,6 +363,8 @@ stage 2에서 드론이 보라색 표식을 인식하여 드론이 약135도 우
 2. 드론이 주행 중 원의 픽셀을 조금이라도 발견하지 못하면 정상적인 주행을 할 수 없게 됩니다.
 
 3. stage3에서 보라색 표식 인식 후 약 135도를 우회전하게 되는데 실제 맵에서는 120도~150도 사이값이기 때문에 거리와 각도에 따라 원을 식별하지 못하는 경우가 발생할 수 있습니다.
+
+4. 주변 배경에 파란색 계열의 원 모양이 존재 할 경우 이를 인식하여 이 물체에 대한 원의 중심을 찾게 되기 때문에 정상적인 주행이 불가능 할 수 있습니다.
 
 # 6. 팀원 소개
 ### 아주대학교 전자공학과 네트로닉스 소학회 소속
