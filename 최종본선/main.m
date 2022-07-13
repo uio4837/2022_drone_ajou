@@ -24,7 +24,7 @@ while stage_pixel<200
     [R, C, X]=size(img);    
     for i =1:R
         for j=1:C
-            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -50
+            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -40
                 img2(i,j,1) = 255;
                 img2(i,j,2) = 255;
                 img2(i,j,3) = 255;
@@ -284,7 +284,7 @@ while stage_pixel<200
     [R, C, X]=size(img);    
     for i =1:R
         for j=1:C
-            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -50
+            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -40
                 img2(i,j,1) = 255;
                 img2(i,j,2) = 255;
                 img2(i,j,3) = 255;
@@ -543,7 +543,7 @@ else
     count_forward=0;
 end
 
-
+moveforward(drone,'Distance',0.5);
 
 % 3rd stage
 while stage_pixel<200
@@ -552,7 +552,7 @@ while stage_pixel<200
     [R, C, X]=size(img);    
     for i =1:R
         for j=1:C
-            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -50
+            if img(i,j,1) - img(i,j,2) > -5 || img(i,j,1) - img(i,j,3) > -5|| img(i,j,2) - img(i,j,3) > -40
                 img2(i,j,1) = 255;
                 img2(i,j,2) = 255;
                 img2(i,j,3) = 255;
@@ -699,7 +699,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
+                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>30
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -755,7 +755,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
+                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>30
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
