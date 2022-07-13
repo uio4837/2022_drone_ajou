@@ -90,7 +90,8 @@ frame 이미지의 RGB 색상 중에서 R과 G의 차이, R과 B의 차이, G와
     
     위의 과정들을 통해서 아래의 이미지를 얻을 수 있었습니다.
     
-    ![image](https://user-images.githubusercontent.com/103806351/178756205-99ffe88f-041b-46ed-ba8e-55e68cd3d100.png)
+    ![image](https://user-images.githubusercontent.com/103806351/178756355-5e85ce52-5cf8-4d42-ac08-3f5ac4d1dc1d.png)
+
     
     다음으로는 위에서 얻은 이미지에서 원을 찾고 원의 중심을 찾는 과정입니다.
     
