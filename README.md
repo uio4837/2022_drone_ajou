@@ -241,7 +241,7 @@ stage 1에서 드론이 초록색 표식을 인식하여 드론이 90도 우회�
         end
     end
     
-![image](https://user-images.githubusercontent.com/103809007/178750218-d3ee5c83-dd2a-4ea2-9746-1dbfd428f8d1.png)
+![image](https://user-images.githubusercontent.com/103809007/178750574-c0969eff-2182-4d28-ab6b-56776c9ca1a4.png)
 
 # 4. 코드 실행 결과
 성공적으로 마지막 단계인 3단계까지 드론이 이동해 착륙하는 것을 확인할 수 있었습니다.
