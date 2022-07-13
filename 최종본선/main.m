@@ -3,7 +3,7 @@ close all;
 clear;
 
 stage_pixel=0;
-
+count_forward =0;
 % 각 스테이지 별 원의 면적
 area_meas=0;
 
@@ -96,64 +96,76 @@ while stage_pixel<200
     Dis=centroid-center_place;
 
     % case 1
-    if(abs(Dis(1))<25 && abs(Dis(2))<25)
+    if(abs(Dis(1))<27 && abs(Dis(2))<27)
         disp("Moving the drone forward");
         if 50000<=area_meas && area_meas<60000
             disp("3.2m moveforward");
             moveforward(drone,'Distance',3.2,'Speed',0.8);
+            count_forward = 1;
 
         elseif 60000<=area_meas && area_meas<74000
             disp("3.0m moveforward");
             moveforward(drone,'Distance',3.0,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 74000<=area_meas && area_meas<85000
             disp("2.8m moveforward");
             moveforward(drone,'Distance',2.8,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 85000<=area_meas && area_meas<105000
             disp("2.6m moveforward");
             moveforward(drone,'Distance',2.6,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 105000<=area_meas && area_meas<130000
             disp("2.4m moveforward");
             moveforward(drone,'Distance',2.4,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 130000<=area_meas && area_meas<165000
             disp("2.2m moveforward");
             moveforward(drone,'Distance',2.2,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 160000<=area_meas && area_meas<220000
             disp("2.0m moveforward");
             moveforward(drone,'Distance',2,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 220000<=area_meas && area_meas<360000
             disp("1.8m moveforward");
             moveforward(drone,'Distance',1.8,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 360000<=area_meas && area_meas<460000
             disp("1.6m moveforward");
             moveforward(drone,'Distance',1.6,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 460000<=area_meas && area_meas<600000
             disp("1.4m moveforward");
             moveforward(drone,'Distance',1.4,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 600000<=area_meas
             disp("1.2m moveforward");
             moveforward(drone,'Distance',1.2,'Speed',0.8);
+            count_forward = 1;
 
         else
             disp("3.4m moveforward");
             moveforward(drone,'Distance',3.4,'Speed',0.8);
+            count_forward = 1;
         end
 
         frame=snapshot(cam);
@@ -162,7 +174,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
+                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 15
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -170,8 +182,8 @@ while stage_pixel<200
 
                 else
 
-                    img3(i,j,1) = 255;
-                    img3(i,j,2) = 0;
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 255;
                     img3(i,j,3) = 0;
                     stage_pixel=stage_pixel+1;
 
@@ -180,32 +192,40 @@ while stage_pixel<200
         end
 
         % case 2
-    elseif(Dis(1)>0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)>0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone right");
-        moveright(drone,'Distance',0.2);
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % case 3
-    elseif(Dis(1)<0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)<0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone left");
-        moveleft(drone,'Distance',0.2);
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % case 4
-    elseif(abs(Dis(1))<25 && Dis(2)>0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)>0 && abs(Dis(2))>27)
         disp("Moving the drone down");
-        movedown(drone,'Distance',0.2);
+        movedown(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+    
         % case 5
-
-    elseif(abs(Dis(1))<25 && Dis(2)<0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)<0 && abs(Dis(2))>27)
         disp("Moving the drone up");
-        moveup(drone,'Distance',0.2);
+        moveup(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
-    elseif(Dis(1)>0 && abs(Dis(1))>25)
+        % case 6
+    elseif(Dis(1)>0 && abs(Dis(1))>27)
         disp("Moving right");
-        moveright(drone,'Distance',0.2);
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
-    elseif(Dis(1)<0 && abs(Dis(1))>25)
+        % case 7
+    elseif(Dis(1)<0 && abs(Dis(1))>27)
         disp("Moving left");
-        moveleft(drone,'Distance',0.2);
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % 나머지 경우 처리
     else
@@ -217,7 +237,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
+                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 15
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -225,26 +245,37 @@ while stage_pixel<200
 
                 else
 
-                    img3(i,j,1) = 255;
-                    img3(i,j,2) = 0;
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 255;
                     img3(i,j,3) = 0;
                     stage_pixel=stage_pixel+1;
 
                 end
             end
         end
+    end
 
-    % stage1값 찾기
-    [height1,time]=readHeight(drone);
-
+    if (stage_pixel<200 && count_forward==1)
+        break;
     end
 end
 
-disp("find_red");
-turn(drone, deg2rad(90));
-moveup(drone,'Distance',0.6);
-moveforward(drone,'Distance',1.1,'Speed',0.8);
-stage_pixel=0;
+if (stage_pixel<200 && count_forward==1)
+    disp("notfound_green")
+    turn(drone, deg2rad(90));
+    moveup(drone,'Distance',0.6);
+    moveforward(drone,'Distance',1.1,'Speed',0.8);
+    stage_pixel=0;
+    count_forward=0;
+
+else 
+    disp("find_green");
+    turn(drone, deg2rad(90));
+    moveup(drone,'Distance',0.6);
+    moveforward(drone,'Distance',1.1,'Speed',0.8);
+    stage_pixel=0;
+    count_forward=0;
+end
 
 % 2nd round
 while stage_pixel<200
@@ -325,61 +356,85 @@ while stage_pixel<200
     Dis=centroid-center_place;
 
     % case 1
-    if(abs(Dis(1))<25 && abs(Dis(2))<25)
+    if(abs(Dis(1))<27 && abs(Dis(2))<27)
         disp("Moving the drone forward");
         if 24500<=area_meas && area_meas<27000
             disp("3.2m moveforward");
             moveforward(drone,'Distance',3.2,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
         elseif 27000<=area_meas && area_meas<32000
             disp("3.0m moveforward");
             moveforward(drone,'Distance',3.0,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 32000<=area_meas && area_meas<39000
             disp("2.8m moveforward");
             moveforward(drone,'Distance',2.8,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 39000<=area_meas && area_meas<47500
             disp("2.6m moveforward");
             moveforward(drone,'Distance',2.6,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 47500<=area_meas && area_meas<62000
             disp("2.4m moveforward");
             moveforward(drone,'Distance',2.4,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 62000<=area_meas && area_meas<84000
             disp("2.2m moveforward");
             moveforward(drone,'Distance',2.2,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
         elseif 84000<=area_meas && area_meas<92000
             disp("2.0m moveforward");
             moveforward(drone,'Distance',2,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
         elseif 92000<=area_meas && area_meas<140000
             disp("1.8m moveforward");
             moveforward(drone,'Distance',1.8,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 140000<=area_meas && area_meas<230000
             disp("1.6m moveforward");
             moveforward(drone,'Distance',1.6,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
 
         elseif 230000<=area_meas && area_meas<380000
             disp("1.4m moveforward");
             moveforward(drone,'Distance',1.4,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
         elseif 380000<=area_meas
             disp("1.2m moveforward");
             moveforward(drone,'Distance',1.2,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
 
         else
             disp("3.4m moveforward");
             moveforward(drone,'Distance',3.4,'Speed',0.8);
+            count_forward = 1;
+            pause(1);
         end
 
         frame=snapshot(cam);
@@ -388,7 +443,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 29
+                if img(i,j,1) - img(i,j,2) < 11 || img(i,j,1) - img(i,j,3) > 0|| img(i,j,2) - img(i,j,3) > 20
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -396,9 +451,9 @@ while stage_pixel<200
 
                 else
 
-                    img3(i,j,1) = 0;
-                    img3(i,j,2) = 255;
-                    img3(i,j,3) = 0;
+                    img3(i,j,1) = 122;
+                    img3(i,j,2) = 48;
+                    img3(i,j,3) = 160;
                     stage_pixel=stage_pixel+1;
 
                 end
@@ -406,32 +461,38 @@ while stage_pixel<200
         end
 
         % case 2
-    elseif(Dis(1)>0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)>0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone right");
-        moveright(drone,'Distance',0.2);
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % case 3
-    elseif(Dis(1)<0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)<0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone left");
-        moveleft(drone,'Distance',0.2);
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % case 4
-    elseif(abs(Dis(1))<25 && Dis(2)>0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)>0 && abs(Dis(2))>27)
         disp("Moving the drone down");
-        movedown(drone,'Distance',0.2);
+        movedown(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
    
         % case 5
-    elseif(abs(Dis(1))<25 && Dis(2)<0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)<0 && abs(Dis(2))>27)
         disp("Moving the drone up");
-        moveup(drone,'Distance',0.2);
+        moveup(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
-    elseif(Dis(1)>0 && abs(Dis(1))>25)
+    elseif(Dis(1)>0 && abs(Dis(1))>27)
         disp("Moving right");
-        moveright(drone,'Distance',0.2);
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
-    elseif(Dis(1)<0 && abs(Dis(1))>25)
+    elseif(Dis(1)<0 && abs(Dis(1))>27)
         disp("Moving left");
-        moveleft(drone,'Distance',0.2);
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % 나머지 경우 처리
     else
@@ -443,7 +504,7 @@ while stage_pixel<200
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 29
+                if img(i,j,1) - img(i,j,2) < 11 || img(i,j,1) - img(i,j,3) > 0|| img(i,j,2) - img(i,j,3) > 20
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -451,9 +512,9 @@ while stage_pixel<200
 
                 else
 
-                    img3(i,j,1) = 0;
-                    img3(i,j,2) = 255;
-                    img3(i,j,3) = 0;
+                    img3(i,j,1) = 122;
+                    img3(i,j,2) = 48;
+                    img3(i,j,3) = 160;
                     stage_pixel=stage_pixel+1;
 
                 end
@@ -461,17 +522,31 @@ while stage_pixel<200
         end
     end
 
-    [height1,time]=readHeight(drone);
+     if (stage_pixel<200 && count_forward==1)
+        break;
+    end
 end
 
-disp("find_green");
-turn(drone, deg2rad(140));
-moveleft(drone,'Distance',0.6);
-moveforward(drone,'Distance',0.3);
-stage_pixel=0;
+if (stage_pixel<200 && count_forward==1)
+
+     disp("notfound_purple");
+    turn(drone, deg2rad(135));
+    moveleft(drone,'Distance',0.8);
+    stage_pixel=0;
+    count_forward=0;
+
+else 
+    disp("find_purple");
+    turn(drone, deg2rad(135));
+    moveleft(drone,'Distance',0.8);
+    stage_pixel=0;
+    count_forward=0;
+end
+
+
 
 % 3rd stage
-while stage_pixel<400
+while stage_pixel<200
     frame=snapshot(cam);
     img = double(frame);
     [R, C, X]=size(img);    
@@ -549,7 +624,7 @@ while stage_pixel<400
     Dis=centroid-center_place;
 
     % case 1
-    if(abs(Dis(1))<25 && abs(Dis(2))<25)
+    if(abs(Dis(1))<27 && abs(Dis(2))<27)
         disp("Moving the drone forward");
         if 19000<=area_meas && area_meas<23500
             disp("3.2m moveforward");
@@ -624,7 +699,7 @@ while stage_pixel<400
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) < 11 || img(i,j,1) - img(i,j,3) > 0|| img(i,j,2) - img(i,j,3) > 20
+                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -632,9 +707,9 @@ while stage_pixel<400
 
                 else
 
-                    img3(i,j,1) = 122;
-                    img3(i,j,2) = 48;
-                    img3(i,j,3) = 160;
+                    img3(i,j,1) = 255;
+                    img3(i,j,2) = 0;
+                    img3(i,j,3) = 0;
                     stage_pixel=stage_pixel+1;
 
                 end
@@ -642,33 +717,34 @@ while stage_pixel<400
         end
 
         % case 2
-    elseif(Dis(1)>0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)>0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone right");
-        moveright(drone,'Distance',0.2);
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
 
         % case 3
-    elseif(Dis(1)<0 && abs(Dis(1))>25 && Dis(2)<25)
+    elseif(Dis(1)<0 && abs(Dis(1))>27 && Dis(2)<27)
         disp("Moving the drone left");
-        moveleft(drone,'Distance',0.2);
-
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
         % case 4
-    elseif(abs(Dis(1))<25 && Dis(2)>0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)>0 && abs(Dis(2))>27)
         disp("Moving the drone down");
-        movedown(drone,'Distance',0.2);
-   
+        movedown(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
         % case 5
-    elseif(abs(Dis(1))<25 && Dis(2)<0 && abs(Dis(2))>25)
+    elseif(abs(Dis(1))<27 && Dis(2)<0 && abs(Dis(2))>27)
         disp("Moving the drone up");
-        moveup(drone,'Distance',0.2);
-
-    elseif(Dis(1)>0 && abs(Dis(1))>25)
+        moveup(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+    elseif(Dis(1)>0 && abs(Dis(1))>27)
         disp("Moving right");
-        moveright(drone,'Distance',0.2);
-
-    elseif(Dis(1)<0 && abs(Dis(1))>25)
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+    elseif(Dis(1)<0 && abs(Dis(1))>27)
         disp("Moving left");
-        moveleft(drone,'Distance',0.2);
-
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
         % 나머지 경우 처리
     else
         disp("Hovering");
@@ -679,7 +755,7 @@ while stage_pixel<400
 
         for i =1:R
             for j=1:C
-                if img(i,j,1) - img(i,j,2) < 11 || img(i,j,1) - img(i,j,3) > 0|| img(i,j,2) - img(i,j,3) > 20
+                if img(i,j,1) - img(i,j,2) <38 || img(i,j,1) - img(i,j,3) <10 || img(i,j,2)-img(i,j,3)>20
 
                     img3(i,j,1) = 0;
                     img3(i,j,2) = 0;
@@ -687,9 +763,9 @@ while stage_pixel<400
 
                 else
 
-                    img3(i,j,1) = 122;
-                    img3(i,j,2) = 48;
-                    img3(i,j,3) = 160;
+                    img3(i,j,1) = 255;
+                    img3(i,j,2) = 0;
+                    img3(i,j,3) = 0;
                     stage_pixel=stage_pixel+1;
 
                 end
@@ -698,5 +774,5 @@ while stage_pixel<400
     end
 end
 
-disp("find_purple");
+disp("find_red");
 land(drone);
