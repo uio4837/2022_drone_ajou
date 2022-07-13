@@ -174,6 +174,10 @@ else 구문에서는 임계값들의 범위 내에 모두 들지 않으면 추�
 
 마지막으로 드론이 빨간색 표식을 인식하여 드론이 90도 우회전하면 stage_pixel을 다시 0으로 초기화시킵니다.
 
+드론이 빨간색을 인식하였을 경우 다음과 같이 이미지를 인식하게 됩니다.
+
+![image](https://user-images.githubusercontent.com/103809007/178746987-f3ad0410-bc02-4fe5-af0d-45136cedf64b.png)
+
 
 #### Green
 
