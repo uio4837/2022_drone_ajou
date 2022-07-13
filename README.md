@@ -133,7 +133,8 @@ frame 이미지의 RGB 색상 중에서 R과 G의 차이, R과 B의 차이, G와
 
 원의 중심 좌표도 아래의 이미지와 같이 알맞게 저장되었음을 확인 할 수 있었습니다.
 
-![image](https://user-images.githubusercontent.com/103806351/178754688-98313400-e279-47ce-a830-3270cd055981.png)
+![image](https://user-images.githubusercontent.com/103806351/178755786-f52fb225-30a9-41d9-9e4d-e482f3d702ad.png)
+
 
 
 ![image](https://user-images.githubusercontent.com/103806351/178755639-7ee8f386-ba88-48e8-a681-d8720d42e555.png)![image](https://user-images.githubusercontent.com/103806351/178755655-af3ac6fe-169e-40a2-a5da-0a73617e99d1.png)
