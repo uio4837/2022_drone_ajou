@@ -127,7 +127,8 @@ frame 이미지의 RGB 색상 중에서 R과 G의 차이, R과 B의 차이, G와
         
  위와 같이 객체의 메트릭이 threshold = 0.7보다 큰 경우를 원으로 판단하고, Centroid를 통해서 원의 중심점을 찾고 ‘centroid’ 변수에 원의 중심 좌표를 저장하였습니다.
 
-![image](https://user-images.githubusercontent.com/103806351/178754572-b641c18c-4fa1-4d11-b0d1-d6b32c2a7d2c.png)
+![image](https://user-images.githubusercontent.com/103806351/178756103-75f07001-9bfa-4814-92a7-d1791d88d509.png)
+
 
  위의 그림이 원 판단 과정까지 거친 최종 이미지입니다. 크로마키 천의 원형 링 객체가 0.9의 메트릭의 값으로 원으로 판단되었습니다.
 
