@@ -41,7 +41,8 @@
 
 # 3. 알고리즘 설명 및 소스코드 구현
 ### 1) 원의 중심 찾기
-![image](https://user-images.githubusercontent.com/92336598/178506652-6db579d3-0449-4e45-84bd-9978b4160c35.png)
+![image](https://user-images.githubusercontent.com/103806351/178755274-7e65de11-013a-48c4-b558-f40d027a5249.png)
+
 
  저희는 링의 중심을 찾기 위하여 우선 크로마키 천이 파란색이라는 것을 이용하였습니다. 
 
