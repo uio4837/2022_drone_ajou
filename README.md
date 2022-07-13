@@ -41,7 +41,13 @@
 
 # 3. 알고리즘 설명 및 소스코드 구현
 ### 1) 원의 중심 찾기
-크로마키 천이 파란색이라는 환경을 이용하기 위하여, 드론의 카메라를 통해서 받아온 double형의 frame 이미지에서 다음의 과정을 통해 파란색 부분만을 추출한다.
+![image](https://user-images.githubusercontent.com/92336598/178506652-6db579d3-0449-4e45-84bd-9978b4160c35.png)
+
+ 저희는 링의 중심을 찾기 위하여 우선 크로마키 천이 파란색이라는 것을 이용하였습니다. 
+
+우선 드론의 카메라를 통해서 받아온 double형의 frame 이미지에서 파란색만 추출하는 과정을 진행하였습니다. frame 이미지의 RGB 색상 중에서 R과 G의 차이, R과 B의 차이, 
+
+G와 B의 차이를 기준으로 파란색을 판단하였습니다. 
 
 [R, C, X]=size(img);    
     for i =1:R
@@ -59,13 +65,11 @@
 
         end
     end
-
-파란색만 남은 이미지를 circle_ring = img2/255; 에 출력값으로 받아온다.
-
-![image](https://user-images.githubusercontent.com/103809007/178755021-8ec297c4-bde3-46b4-a6be-b90e6bf9b5bb.png)
-
-
- circle_ring_Gray = rgb2gray(circle_ring);
+    
+ 위와 같이 RGB 값을 이용하여 파란색인지 판단을 한 후, 파란색인 부분은 흰색으로, 그 외의 색깔들은 검은색으로 변환하는 처리 과정을 진행하였습니다.
+ 
+ circle_ring = img2/255;
+    circle_ring_Gray = rgb2gray(circle_ring);
     circle_ring_bi=imbinarize(circle_ring_Gray);
     bi2=imcomplement(circle_ring_bi);
     bw = bwareaopen(bi2,8000);
@@ -74,8 +78,66 @@
     bw2 = imclose(bw,se);
     bw3 = bwareaopen(bw2,8000);
     [B,L] = bwboundaries(bw3,'noholes');
+    
+     파란색 추출 이미지 처리를 통해 얻은 RGB 이미지인 circle_ring을 회색조로 변환한 후, 이를 이진화하여 이진 영상으로 변환하고 보수를 사용하여 색을 반전시켜주었습니다. 
+    
+    원을 정확하게 찾기 위해 영상 필터링 및 향상 과정으로 ‘bwareaopen’을 사용하여 8000픽셀 이하의 객체를 모두 지웠고, 이를 반전시켜서 ‘strel’을 통해서 모폴로지 연산을 하여 
+    
+    이미지를 원형구조로 만들어 주었습니다. ‘imclose’로 모폴로지 닫기 연산 수행하고, 다시 ‘bwareaopen’을 이용하여 8000픽셀 이하의 객체들을 지워주었습니다.
+    
+    ‘bwboundaries’가 내부 윤곽선을 찾는 것을 방지하기 위해 ‘noholes’ 옵션을 지정하여 외부 경계선에만 초점두게 하였습니다. 
+    
+    위의 과정들을 통해서 아래의 이미지를 얻을 수 있었습니다.
+    
+    ![image](https://user-images.githubusercontent.com/103806351/178754046-f9c70d29-4c3e-4fed-8057-972e4048548a.png)
+    
+    다음으로는 위에서 얻은 이미지에서 원을 찾고 원의 중심을 찾는 과정입니다.
+    
+     for k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2),boundary(:,1),'w','LineWidth',2);
+    end
+    
+ 위의 과정을 통해서 레이블 행렬을 표시하고 각 경계를 그려줍니다. 다음으로 이미지에서 표시된 각 객체들의 면적과 둘레를 측정하고 이를 기반으로 
+    
+  객체의 원형률을 나타내는 메트릭을 만들었습니다.
+  
+   stats = regionprops(L,'Area','Centroid');
+   hreshold = 0.7;
+   
+    for k = 1:length(B)
+        boundary = B{k};
+        delta_sq = diff(boundary).^2;
+        perimeter = sum(sqrt(sum(delta_sq,2)));     객체의 둘레
+        area = stats(k).Area;                       객체의 면적
+        metric = 4*pi*area/perimeter^2;             객체의 메트릭 값
+    
+ 메트릭의 값이 1일때가 원이고, 1에 가까울수록 원형에 가깝다는 것을 의미합니다. 
+    
+  따라서, 메트릭에 대한 특정 임계값을 ‘threshold = 0.7’이라고 지정하여 객체를 원으로 판단하는 기준을 마련하였습니다.
+    
+    metric_string = sprintf('%2.2f',metric);
 
-이 과정들을 통해서 이미지를 회색으로 변환 후, 이진 영상의 형태로 바꾸어 불필요한 픽셀을 제거하고 구멍을 채워서 이미지를 깨끗하게 처리하여 준다.
+        if metric > threshold
+            area_meas=stats(k).Area;
+            centroid = stats(k).Centroid;
+            plot(centroid(1),centroid(2),'b');
+        end
+        
+ 위와 같이 객체의 메트릭이 threshold = 0.7보다 큰 경우를 원으로 판단하고, Centroid를 통해서 원의 중심점을 찾고 ‘centroid’ 변수에 원의 중심 좌표를 저장하였습니다.
+
+![image](https://user-images.githubusercontent.com/103806351/178754572-b641c18c-4fa1-4d11-b0d1-d6b32c2a7d2c.png)
+
+ 위의 그림이 원 판단 과정까지 거친 최종 이미지입니다. 크로마키 천의 원형 링 객체가 0.9의 메트릭의 값으로 원으로 판단되었습니다.
+
+원의 중심 좌표도 아래의 이미지와 같이 알맞게 저장되었음을 확인 할 수 있었습니다.
+
+![image](https://user-images.githubusercontent.com/103806351/178754688-98313400-e279-47ce-a830-3270cd055981.png)
+
+
+![image](https://user-images.githubusercontent.com/103806351/178754713-97777bd4-2059-479d-8607-a82a6ddea96c.png) ![image](https://user-images.githubusercontent.com/103806351/178754735-f410f567-4a7f-4240-b890-1a69e9fc459f.png)
+
+이미지 처리 전, 후 비교
 
 ### 2) 주행
 원의 넓이를 실험적으로 측정하였고, 그 값에 따른 드론의 직진 거리를 다음과 같이 설정하였습니다.
