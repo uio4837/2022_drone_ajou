@@ -136,7 +136,9 @@ frame 이미지의 RGB 색상 중에서 R과 G의 차이, R과 B의 차이, G와
 ![image](https://user-images.githubusercontent.com/103806351/178754688-98313400-e279-47ce-a830-3270cd055981.png)
 
 
-![image](https://user-images.githubusercontent.com/103806351/178754713-97777bd4-2059-479d-8607-a82a6ddea96c.png) ![image](https://user-images.githubusercontent.com/103806351/178754735-f410f567-4a7f-4240-b890-1a69e9fc459f.png)
+![image](https://user-images.githubusercontent.com/103806351/178755639-7ee8f386-ba88-48e8-a681-d8720d42e555.png)![image](https://user-images.githubusercontent.com/103806351/178755655-af3ac6fe-169e-40a2-a5da-0a73617e99d1.png)
+
+
 
 이미지 처리 전, 후 비교
 
