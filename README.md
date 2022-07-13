@@ -16,7 +16,7 @@
 # 1.Tello 드론 소개
 ![image](https://user-images.githubusercontent.com/92336598/178506652-6db579d3-0449-4e45-84bd-9978b4160c35.png)
 
-[ryze Tello](https://www.ryzerobotics.com/kr/tello/specs "텔로") 모델을 사용하였습니다.
+위 사양과 같은 [ryze Tello](https://www.ryzerobotics.com/kr/tello/specs "텔로") 모델을 사용하였습니다.
 
 드론 제어에 사용된 코드 설계에 있어 [MATLAB Tello Support 패키지](https://kr.mathworks.com/hardware-support/tello-drone-matlab.html)를 사용했습니다.
 
@@ -359,6 +359,7 @@ stage 2에서 드론이 보라색 표식을 인식하여 드론이 약135도 우
 
 2. 드론이 주행 중 원의 픽셀을 조금이라도 발견하지 못하면 정상적인 주행을 할 수 없게 됩니다.
 
+3. stage3에서 보라색 표식 인식 후 약 135도를 우회전하게 되는데 실제 맵에서는 120도~150도 사이값이기 때문에 거리와 각도에 따라 원을 식별하지 못하는 경우가 발생할 수 있습니다.
 
 # 6. 팀원 소개
 ### 아주대학교 전자공학과 네트로닉스 소학회 소속
