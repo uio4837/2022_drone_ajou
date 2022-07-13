@@ -21,7 +21,7 @@
 드론 제어에 사용된 코드 설계에 있어 [MATLAB Tello Support 패키지](https://kr.mathworks.com/hardware-support/tello-drone-matlab.html)를 사용했습니다.
 
 # 2. 대회 진행 전략
-![image](https://user-images.githubusercontent.com/92336598/178520386-8fe12b89-2cfa-4845-b007-8c623e8c321d.png)
+<img width="723" alt="주행전략" src="https://user-images.githubusercontent.com/103809007/178740334-c7d0e441-766a-4d5d-91dd-1b1ce4285835.PNG">
 다음과 같은 방식으로 전략을 설계했습니다.
 
 # 3. 알고리즘 설명 및 소스코드 구현
