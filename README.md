@@ -62,6 +62,9 @@
 
 파란색만 남은 이미지를 circle_ring = img2/255; 에 출력값으로 받아온다.
 
+![image](https://user-images.githubusercontent.com/103809007/178755021-8ec297c4-bde3-46b4-a6be-b90e6bf9b5bb.png)
+
+
  circle_ring_Gray = rgb2gray(circle_ring);
     circle_ring_bi=imbinarize(circle_ring_Gray);
     bi2=imcomplement(circle_ring_bi);
