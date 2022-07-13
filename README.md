@@ -166,69 +166,195 @@ bwboundaries가 내부 윤곽선을 찾는 것을 방지하기 위해 noholes �
 이미지 처리 전, 후 비교
 
 ### 2) 주행
-원의 넓이를 실험적으로 측정하였고, 그 값에 따른 드론의 직진 거리를 다음과 같이 설정하였습니다.
+다음과 같이 직진 여부를 결정하기 위해 현재 원의 중점 좌표인 centroid와 기준이 되는 중점의 위치 center_place의 위치 차이를 Dis라는 새로운 변수를 도입하여 저장합니다.
 
+    % 3-1) 원의 중심 찾기 알고리즘
+    Dis=centroid-center_place;  % 현재 원의 위치에서 기준이 되는 중점의 위치의 차이를 Dis로 저장
+
+그다음, Dis의 값에 따라 case를 나눠 각 case에 따라 다음과 같이 움직이도록 코드를 설계했습니다.
+
+![image](https://user-images.githubusercontent.com/92336598/178763354-bd2ee51f-74a8-4100-bac0-8d8ac2f5cb95.png)
+
+case 1은 기준 영역 내에 들어온 경우로 각 거리에 따른 원의 넓이를 실험적으로 측정하였고 그 값에 따른 드론의 직진 거리를 다음과 같이 설정하였습니다. 그다음 해당되는 거리를 한 번에 이동하도록 하였고, 이동한 횟수인 count_forward를 1로 설정해 그 뒤, moveforward를 하지 못하도록 코드를 설계하였습니다.
+
+    % case 1
+    if(abs(Dis(1))<27 && abs(Dis(2))<27)    % x 좌표 차이, y 좌표 차이가 27보다 작을 경우 앞으로 전진
+        disp("Moving the drone forward"); 
+
+        % 거리에 따른 원의 넓이를 실험적으로 측정했고, 그에 따른 전진 거리를 설정
+        % 그 거리를 이동하고, 이동한 횟수를 1회로 설정
         if 50000<=area_meas && area_meas<60000
             disp("3.2m moveforward");
             moveforward(drone,'Distance',3.2,'Speed',0.8);
+            count_forward = 1;          
 
         elseif 60000<=area_meas && area_meas<74000
             disp("3.0m moveforward");
             moveforward(drone,'Distance',3.0,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 74000<=area_meas && area_meas<85000
             disp("2.8m moveforward");
             moveforward(drone,'Distance',2.8,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 85000<=area_meas && area_meas<105000
             disp("2.6m moveforward");
             moveforward(drone,'Distance',2.6,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 105000<=area_meas && area_meas<130000
             disp("2.4m moveforward");
             moveforward(drone,'Distance',2.4,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 130000<=area_meas && area_meas<165000
             disp("2.2m moveforward");
             moveforward(drone,'Distance',2.2,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 160000<=area_meas && area_meas<220000
             disp("2.0m moveforward");
             moveforward(drone,'Distance',2,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 220000<=area_meas && area_meas<360000
             disp("1.8m moveforward");
             moveforward(drone,'Distance',1.8,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 360000<=area_meas && area_meas<460000
             disp("1.6m moveforward");
             moveforward(drone,'Distance',1.6,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 460000<=area_meas && area_meas<600000
             disp("1.4m moveforward");
             moveforward(drone,'Distance',1.4,'Speed',0.8);
+            count_forward = 1;
 
 
         elseif 600000<=area_meas
             disp("1.2m moveforward");
             moveforward(drone,'Distance',1.2,'Speed',0.8);
+            count_forward = 1;
 
         else
             disp("3.4m moveforward");
             moveforward(drone,'Distance',3.4,'Speed',0.8);
+            count_forward = 1;
         end
         
-![image](https://user-images.githubusercontent.com/92336598/178760071-8fc06b28-ac29-42d4-8079-9f8767c8b38d.png)
+전진 후, 그 앞에는 표식이 보이고 이미지를 다시 읽어 각 표식의 픽셀값을 읽어오도록 코드를 설계했습니다.
 
+        % 전진 후, 이미지를 다시 읽어오는 과정을 수행
+        frame=snapshot(cam);
+        img = double(frame);
+        [R, C, X]=size(img);        
+
+        for i =1:R
+            for j=1:C
+                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 15  % 초록색이 아닌 색들을 없애기 위한 조건
+                    % 초록색이 아닌 색들은 모두 제거해야 하므로 이 경우 img3의 R, G, B 모든 요소의 값을 0을 대입
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 0;
+                    img3(i,j,3) = 0;
+
+                else    % 위의 경우가 아닌 경우, 모두 초록색이라 판단하고
+                    % 그 외의 경우, img3의 R, G, B 요소들 중 G 요소에 최대 수치인 255를 대입
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 255;
+                    img3(i,j,3) = 0;
+                    stage_pixel=stage_pixel+1;  % 각 색의 픽셀값을 읽어오는 변수인 stage_pixel의 값을 1 증가시킴
+
+                end
+            end
+        end
         
+그 외의 case2~case7까지의 드론 제어 설계는 위의 사진과 같은 방식으로 설계하였고 그 코드는 다음과 같습니다.
+
+        % case 2
+    elseif(Dis(1)>0 && abs(Dis(1))>27 && Dis(2)<27)
+        disp("Moving the drone right");
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+
+        % case 3
+    elseif(Dis(1)<0 && abs(Dis(1))>27 && Dis(2)<27)
+        disp("Moving the drone left");
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+
+        % case 4
+    elseif(abs(Dis(1))<27 && Dis(2)>0 && abs(Dis(2))>27)
+        disp("Moving the drone down");
+        movedown(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+    
+        % case 5
+    elseif(abs(Dis(1))<27 && Dis(2)<0 && abs(Dis(2))>27)
+        disp("Moving the drone up");
+        moveup(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+
+        % case 6
+    elseif(Dis(1)>0 && abs(Dis(1))>27)
+        disp("Moving right");
+        moveright(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+
+        % case 7
+    elseif(Dis(1)<0 && abs(Dis(1))>27)
+        disp("Moving left");
+        moveleft(drone,'Distance',0.2,'Speed',1);
+        pause(1.5);
+
+        % 나머지 경우 처리
+    else
+        disp("Hovering");
+        % 이미지를 읽어오는 
+        frame=snapshot(cam);
+        img = double(frame);
+        [R, C, X]=size(img);        
+
+        for i =1:R
+            for j=1:C
+                if img(i,j,1) - img(i,j,2) > 20 || img(i,j,1) - img(i,j,3) > 10|| img(i,j,2) - img(i,j,3) < 15  % 초록색이 아닌 색들을 없애기 위한 조건
+                    % 초록색이 아닌 색들은 모두 제거해야 하므로 이 경우 img3의 R, G, B 모든 요소의 값을 0을 대입
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 0;
+                    img3(i,j,3) = 0;
+
+                else    % 위의 경우가 아닌 경우, 모두 초록색이라 판단하고
+                    % 그 외의 경우, img3의 R, G, B 요소들 중 G 요소에 최대 수치인 255를 대입
+                    img3(i,j,1) = 0;
+                    img3(i,j,2) = 255;
+                    img3(i,j,3) = 0;
+                    stage_pixel=stage_pixel+1;  % 각 색의 픽셀값을 읽어오는 변수인 stage_pixel의 값을 1 증가시킴
+
+                end
+            end
+        end
+    end
+
+1회 전진했을 경우 count_forward=1이므로 더이상 전진하지 않고 다음 loop를 수행하도록 하기 위해 아래와 같은 코드를 설계했습니다.
+
+    % 전진한 횟수가 1회인 경우 해당 while loop를 빠져나오도록 설정
+    if (stage_pixel<200 && count_forward==1)
+        break;
+    end
+    
+1st stage를 지나게 되면, 2nd stage에 들어서게 되고 이 역시 위와 같은 방법으로 코드를 설계하였습니다.
+마찬가지로, 2nd stage를 지나게 되면 3rd stage에 들어서게 되고 같은 방법으로 코드를 설계하였습니다.
+
 ### 3) 표식의 색 인식
 R, G, B 각 색에 따른 측정되는 세기의 정도가 다르기에, 이를 실험적으로 드론이 촬영한 이미지의 각 3가지 영역(R,G,B)값들의 차이를 측정해 값들을 설정했습니다.
 
@@ -354,6 +480,7 @@ stage 2에서 드론이 보라색 표식을 인식하여 드론이 약135도 우
 ![image](https://user-images.githubusercontent.com/103809007/178750574-c0969eff-2182-4d28-ab6b-56776c9ca1a4.png)
 
 # 4. 코드 실행 결과
+
 성공적으로 마지막 단계인 3단계까지 드론이 이동해 착륙하는 것을 확인할 수 있었습니다.
 
 # 5. 발생할 수 있는 문제점
