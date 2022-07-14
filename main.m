@@ -103,7 +103,7 @@ while stage_pixel<200   % 해당 색의 픽셀값이 200보다 작을때 while�
     Dis=centroid-center_place;  % 현재 원의 위치에서 기준이 되는 중점의 위치의 차이를 Dis로 저장
 
     % case 1
-    if(abs(Dis(1))<27 && abs(Dis(2))<27)    % x 좌표 차이, y 좌표 차이가 27보다 작을 경우 앞으로 전진
+    if(abs(Dis(1))<28 && abs(Dis(2))<28)    % x 좌표 차이, y 좌표 차이가 27보다 작을 경우 앞으로 전진
         disp("Moving the drone forward"); 
 
         % 거리에 따른 원의 넓이를 실험적으로 측정했고, 그에 따른 전진 거리를 설정
@@ -203,37 +203,37 @@ while stage_pixel<200   % 해당 색의 픽셀값이 200보다 작을때 while�
         end
 
         % case 2
-    elseif(Dis(1)>0 && abs(Dis(1))>27 && Dis(2)<27)
+    elseif(Dis(1)>0 && abs(Dis(1))>28 && Dis(2)<28)
         disp("Moving the drone right");
         moveright(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
 
         % case 3
-    elseif(Dis(1)<0 && abs(Dis(1))>27 && Dis(2)<27)
+    elseif(Dis(1)<0 && abs(Dis(1))>28 && Dis(2)<28)
         disp("Moving the drone left");
         moveleft(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
 
         % case 4
-    elseif(abs(Dis(1))<27 && Dis(2)>0 && abs(Dis(2))>27)
+    elseif(abs(Dis(1))<28 && Dis(2)>0 && abs(Dis(2))>28)
         disp("Moving the drone down");
         movedown(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
     
         % case 5
-    elseif(abs(Dis(1))<27 && Dis(2)<0 && abs(Dis(2))>27)
+    elseif(abs(Dis(1))<28 && Dis(2)<0 && abs(Dis(2))>28)
         disp("Moving the drone up");
         moveup(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
 
         % case 6
-    elseif(Dis(1)>0 && abs(Dis(1))>27)
+    elseif(Dis(1)>0 && abs(Dis(1))>28)
         disp("Moving right");
         moveright(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
 
         % case 7
-    elseif(Dis(1)<0 && abs(Dis(1))>27)
+    elseif(Dis(1)<0 && abs(Dis(1))>28)
         disp("Moving left");
         moveleft(drone,'Distance',0.2,'Speed',1);
         pause(1.5);
